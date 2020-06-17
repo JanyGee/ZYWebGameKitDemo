@@ -1,0 +1,6 @@
+framework module ZYOtherLoginKit {
+  umbrella header "ZYOtherLoginKit.h"
+
+  export *
+  module * { export * }
+}
