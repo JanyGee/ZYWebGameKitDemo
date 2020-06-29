@@ -25,7 +25,8 @@
         NSLog(@"初始化失败");
     }];
     
-    [[ZYGameFB shareFacebook] initWithAppID:@"" application:application options:launchOptions];
+    [[ZYGameFB shareFacebook] initWithAppID:@"facebook后台获取" application:application options:launchOptions];
+    [[ZYGameGoogle shareGoogle] initWithClientID:@"google后台获取"];
     return YES;
 }
 
