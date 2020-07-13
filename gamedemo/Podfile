@@ -6,7 +6,7 @@ target 'gamedemo' do
   use_frameworks!
 
   # Pods for gamedemo
-  pod 'ZYGameKit-swift', '~> 1.0.3'
+  pod 'ZYGameKit-swift', '~> 1.0.9'
   pod 'ZYOtherLoginKit', '~> 1.0.2'
   
   pod 'GoogleSignIn'
