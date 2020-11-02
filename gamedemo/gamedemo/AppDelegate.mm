@@ -19,7 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [ZYWebGameKit initWithAppKey:@"CC45F95C8BE309871A96E478F865A4B2" appId:@"10055" channelId:@"900035" success:^(BOOL state) {
+    [ZYWebGameKit initWithAppKey:@"6A8DCEDA1528BAD6409228B894368611" appId:@"30081" channelId:@"900035" success:^(BOOL state) {
         NSLog(@"初始化成功----%d", state);//yes : 国内， no ： 海外
     } fail:^{
         NSLog(@"初始化失败");

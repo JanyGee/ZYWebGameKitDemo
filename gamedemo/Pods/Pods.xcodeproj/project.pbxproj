@@ -2764,23 +2764,6 @@
 			};
 			name = Release;
 		};
-		4F585301B6E16054113C52659DE540EC /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8143E5F714892BB2A8DEA93B63037C2D /* ZYGameKit-swift.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		5D720879DBF746187D64A72246882AA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C57C9F73C95D55A53A5488D00B1CEF28 /* GTMAppAuth.debug.xcconfig */;
@@ -3238,13 +3221,13 @@
 			};
 			name = Release;
 		};
-		B9DF23FB2F681E54899FB697219C5524 /* Debug */ = {
+		DAE68B23A3B0009368C97DE9FE350CB1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 796CA3C69F598319CE0E7C255EF371BB /* ZYGameKit-swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3253,6 +3236,23 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
+		};
+		DD028E15E57B27A13FFA3A228AAC0AEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8143E5F714892BB2A8DEA93B63037C2D /* ZYGameKit-swift.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
 		};
 		EA0E55CE66288170867020F756F8A02C /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -3395,8 +3395,8 @@
 		FCBC0854BE41CD70119E3FB749456A1A /* Build configuration list for PBXAggregateTarget "ZYGameKit-swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B9DF23FB2F681E54899FB697219C5524 /* Debug */,
-				4F585301B6E16054113C52659DE540EC /* Release */,
+				DAE68B23A3B0009368C97DE9FE350CB1 /* Debug */,
+				DD028E15E57B27A13FFA3A228AAC0AEE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
