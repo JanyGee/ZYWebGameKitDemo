@@ -43,7 +43,8 @@
   }
 }
 
-+ (void)array:(NSMutableArray *)array addObject:(nullable id)object atIndex:(NSUInteger)index {
++ (void)array:(NSMutableArray *)array addObject:(nullable id)object atIndex:(NSUInteger)index
+{
   if (object && [array isKindOfClass:NSMutableArray.class]) {
     if (index < array.count) {
       [array insertObject:object atIndex:index];
@@ -89,7 +90,7 @@
   }
 }
 
-+ (void)dictionary:(NSDictionary *)dictionary enumerateKeysAndObjectsUsingBlock:(void (NS_NOESCAPE ^)(id key, id obj, BOOL *stop))block
++ (void)dictionary:(NSDictionary *)dictionary enumerateKeysAndObjectsUsingBlock:(void(NS_NOESCAPE ^)(id key, id obj, BOOL *stop))block
 {
   NSDictionary *validDictionary = [self dictionaryValue:dictionary];
   if (validDictionary) {
@@ -173,20 +174,19 @@
   return [NSJSONSerialization isValidJSONObject:obj];
 }
 
-+ (NSData *)dataWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError *__autoreleasing  _Nullable *)error
++ (NSData *)dataWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError *__autoreleasing _Nullable *)error
 {
   NSData *data;
 
   @try {
     data = [NSJSONSerialization dataWithJSONObject:obj options:opt error:error];
-  }
-  @catch (NSException *exception) {
-     NSLog(@"FBSDKJSONSerialization - dataWithJSONObject:options:error failed: %@", exception.reason);
+  } @catch (NSException *exception) {
+    NSLog(@"FBSDKJSONSerialization - dataWithJSONObject:options:error failed: %@", exception.reason);
   }
   return data;
 }
 
-+ (id)JSONObjectWithData:(NSData *)data options:(NSJSONReadingOptions)opt error:(NSError *__autoreleasing  _Nullable *)error
++ (id)JSONObjectWithData:(NSData *)data options:(NSJSONReadingOptions)opt error:(NSError *__autoreleasing _Nullable *)error
 {
   if (![data isKindOfClass:NSData.class]) {
     return nil;
@@ -194,10 +194,9 @@
 
   id object;
   @try {
-     object = [NSJSONSerialization JSONObjectWithData:data options:opt error:error];
-  }
-  @catch (NSException *exception) {
-     NSLog(@"FBSDKJSONSerialization - JSONObjectWithData:options:error failed: %@", exception.reason);
+    object = [NSJSONSerialization JSONObjectWithData:data options:opt error:error];
+  } @catch (NSException *exception) {
+    NSLog(@"FBSDKJSONSerialization - JSONObjectWithData:options:error failed: %@", exception.reason);
   }
   return object;
 }

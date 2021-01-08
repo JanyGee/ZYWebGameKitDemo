@@ -20,17 +20,15 @@
 
 #if !TARGET_OS_TV
 
-#import <Foundation/Foundation.h>
+#import "FBSDKReferralManager+Internal.h"
 
-typedef NS_ENUM(NSInteger, FBSDKTriStateBOOL)
-{
-  FBSDKTriStateBOOLValueUnknown = -1,
-  FBSDKTriStateBOOLValueNO = 0,
-  FBSDKTriStateBOOLValueYES = 1,
-} NS_SWIFT_NAME(TriStateBool.Value);
+NS_SWIFT_NAME(ReferralManagerLogger)
+@interface FBSDKReferralManagerLogger : NSObject
 
-FOUNDATION_EXPORT FBSDKTriStateBOOL FBSDKTriStateBOOLFromBOOL(BOOL value);
-FOUNDATION_EXPORT FBSDKTriStateBOOL FBSDKTriStateBOOLFromNSNumber(NSNumber *value);
-FOUNDATION_EXPORT BOOL BOOLFromFBSDKTriStateBOOL(FBSDKTriStateBOOL value, BOOL defaultValue);
+- (void)logReferralStart;
+
+- (void)logReferralEnd:(FBSDKReferralManagerResult *)result error:(NSError *)error;
+
+@end
 
 #endif

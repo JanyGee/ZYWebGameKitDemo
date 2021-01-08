@@ -18,14 +18,12 @@
 
 #import "FBSDKCrashObserver.h"
 
-#import "FBSDKCrashHandler.h"
 #import "FBSDKCrashShield.h"
 #import "FBSDKFeatureManager.h"
 #import "FBSDKGraphRequest.h"
 #import "FBSDKGraphRequestConnection.h"
-#import "FBSDKLibAnalyzer.h"
 #import "FBSDKSettings.h"
-#import "FBSDKTypeUtility.h"
+#import "FBSDKSettings+Internal.h"
 
 @implementation FBSDKCrashObserver
 
@@ -61,6 +59,9 @@
 
 - (void)didReceiveCrashLogs:(NSArray<NSDictionary<NSString *, id> *> *)processedCrashLogs
 {
+  if ([FBSDKSettings isDataProcessingRestricted]) {
+    return;
+  }
   if (0 == processedCrashLogs.count) {
     [FBSDKCrashHandler clearCrashReportFiles];
     return;

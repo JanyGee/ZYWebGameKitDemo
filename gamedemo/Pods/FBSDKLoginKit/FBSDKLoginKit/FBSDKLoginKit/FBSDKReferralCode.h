@@ -16,19 +16,37 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol FBSDKCrashObserving <NSObject>
+/**
+ Represent a referral code used in the referral process
+*/
+NS_SWIFT_NAME(ReferralCode)
+@interface FBSDKReferralCode : NSObject
 
-@property (nonatomic, copy) NSArray<NSString *> *prefixes;
-@property (nonatomic, copy, nullable) NSArray<NSString *> *frameworks;
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 
-@optional
+/**
+ The string value of the referral code
+*/
+@property NSString *value;
 
-- (void)didReceiveCrashLogs:(NSArray<NSDictionary<NSString *, id> *> *)crashLogs;
+/**
+ Initializes a new instance if the referral code is valid. Otherwise returns nil.
+ A code is valid if it is non-empty and contains only alphanumeric characters.
+ @param string the raw string referral code
+*/
++ (nullable instancetype)initWithString:(NSString *)string;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

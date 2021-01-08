@@ -16,9 +16,11 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "FBSDKBasicUtility.h"
+
+#import <CommonCrypto/CommonCrypto.h>
 #import <zlib.h>
 
-#import "FBSDKBasicUtility.h"
 #import "FBSDKTypeUtility.h"
 
 #define kChunkSize 1024
@@ -59,10 +61,10 @@ static NSString *const FBSDK_BASICUTILITY_ANONYMOUSID_KEY = @"anon_id";
   return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
-+ (BOOL)dictionary:(NSMutableDictionary<NSString *, id> *)dictionary
-setJSONStringForObject:(id)object
-            forKey:(id<NSCopying>)key
-             error:(NSError *__autoreleasing *)errorRef
++ (BOOL)      dictionary:(NSMutableDictionary<NSString *, id> *)dictionary
+  setJSONStringForObject:(id)object
+                  forKey:(id<NSCopying>)key
+                   error:(NSError *__autoreleasing *)errorRef
 {
   if (!object || !key) {
     return YES;
@@ -86,10 +88,10 @@ setJSONStringForObject:(id)object
     object = ((NSURL *)object).absoluteString;
   } else if ([object isKindOfClass:[NSDictionary class]]) {
     NSMutableDictionary<NSString *, id> *dictionary = [[NSMutableDictionary alloc] init];
-    [FBSDKTypeUtility dictionary:(NSDictionary<id, id> *)object enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *dictionaryStop) {
+    [FBSDKTypeUtility dictionary:(NSDictionary<id, id> *) object enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *dictionaryStop) {
       [FBSDKTypeUtility dictionary:dictionary
-             setObject:[self _convertObjectToJSONObject:obj invalidObjectHandler:invalidObjectHandler stop:&stop]
-                forKey:[FBSDKTypeUtility stringValue:key]];
+                         setObject:[self _convertObjectToJSONObject:obj invalidObjectHandler:invalidObjectHandler stop:&stop]
+                            forKey:[FBSDKTypeUtility stringValue:key]];
       if (stop) {
         *dictionaryStop = YES;
       }
@@ -126,16 +128,16 @@ setJSONStringForObject:(id)object
   return [FBSDKTypeUtility JSONObjectWithData:data options:NSJSONReadingAllowFragments error:errorRef];
 }
 
-+ (NSString *)queryStringWithDictionary:(NSDictionary<id, id> *)dictionary
-                                  error:(NSError *__autoreleasing *)errorRef
-                   invalidObjectHandler:(FBSDKInvalidObjectHandler)invalidObjectHandler
++ (nullable NSString *)queryStringWithDictionary:(NSDictionary<id, id> *)dictionary
+                                           error:(NSError *__autoreleasing *)errorRef
+                            invalidObjectHandler:(FBSDKInvalidObjectHandler)invalidObjectHandler
 {
   NSMutableString *queryString = [[NSMutableString alloc] init];
   __block BOOL hasParameters = NO;
   if (dictionary) {
     NSMutableArray<NSString *> *keys = [dictionary.allKeys mutableCopy];
     // remove non-string keys, as they are not valid
-    [keys filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary<id, id> *bindings) {
+    [keys filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL (id evaluatedObject, NSDictionary<id, id> *bindings) {
       return [evaluatedObject isKindOfClass:[NSString class]];
     }]];
     // sort the keys so that the query string order is deterministic
@@ -181,11 +183,13 @@ setJSONStringForObject:(id)object
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 + (NSString *)URLEncode:(NSString *)value
 {
-  return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
-                                                                               (CFStringRef)value,
-                                                                               NULL, // characters to leave unescaped
-                                                                               CFSTR(":!*();@/&?+$,='"),
-                                                                               kCFStringEncodingUTF8);
+  return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(
+    NULL,
+    (CFStringRef)value,
+    NULL, // characters to leave unescaped
+    CFSTR(":!*();@/&?+$,='"),
+    kCFStringEncodingUTF8
+  );
 }
 
 #pragma clang diagnostic pop
@@ -224,10 +228,10 @@ setJSONStringForObject:(id)object
 + (NSString *)URLDecode:(NSString *)value
 {
   value = [value stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   value = [value stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-#pragma clang diagnostic pop
+  #pragma clang diagnostic pop
   return value;
 }
 
@@ -321,6 +325,30 @@ setJSONStringForObject:(id)object
             atomically:YES
               encoding:NSASCIIStringEncoding
                  error:nil];
+}
+
++ (NSString *)SHA256Hash:(NSObject *)input
+{
+  NSData *data = nil;
+
+  if ([input isKindOfClass:[NSData class]]) {
+    data = (NSData *)input;
+  } else if ([input isKindOfClass:[NSString class]]) {
+    data = [(NSString *)input dataUsingEncoding:NSUTF8StringEncoding];
+  }
+
+  if (!data) {
+    return nil;
+  }
+
+  uint8_t digest[CC_SHA256_DIGEST_LENGTH];
+  CC_SHA256(data.bytes, (CC_LONG)data.length, digest);
+  NSMutableString *hashed = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
+  for (int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
+    [hashed appendFormat:@"%02x", digest[i]];
+  }
+
+  return [hashed copy];
 }
 
 @end

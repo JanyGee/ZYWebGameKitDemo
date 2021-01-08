@@ -4,29 +4,29 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
-  - FBSDKCoreKit (7.0.1):
-    - FBSDKCoreKit/Basics (= 7.0.1)
-    - FBSDKCoreKit/Core (= 7.0.1)
-  - FBSDKCoreKit/Basics (7.0.1)
-  - FBSDKCoreKit/Core (7.0.1):
+  - FBSDKCoreKit (8.2.0):
+    - FBSDKCoreKit/Basics (= 8.2.0)
+    - FBSDKCoreKit/Core (= 8.2.0)
+  - FBSDKCoreKit/Basics (8.2.0)
+  - FBSDKCoreKit/Core (8.2.0):
     - FBSDKCoreKit/Basics
-  - FBSDKLoginKit (7.0.1):
-    - FBSDKLoginKit/Login (= 7.0.1)
-  - FBSDKLoginKit/Login (7.0.1):
-    - FBSDKCoreKit (~> 7.0.1)
+  - FBSDKLoginKit (8.2.0):
+    - FBSDKLoginKit/Login (= 8.2.0)
+  - FBSDKLoginKit/Login (8.2.0):
+    - FBSDKCoreKit (~> 8.2.0)
   - GoogleSignIn (5.0.2):
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GTMAppAuth (1.0.0):
-    - AppAuth/Core (~> 1.0)
-    - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.4.0):
-    - GTMSessionFetcher/Full (= 1.4.0)
-  - GTMSessionFetcher/Core (1.4.0)
-  - GTMSessionFetcher/Full (1.4.0):
-    - GTMSessionFetcher/Core (= 1.4.0)
-  - ZYGameKit-swift (1.1.8)
+  - GTMAppAuth (1.1.0):
+    - AppAuth/Core (~> 1.4)
+    - GTMSessionFetcher (~> 1.4)
+  - GTMSessionFetcher (1.5.0):
+    - GTMSessionFetcher/Full (= 1.5.0)
+  - GTMSessionFetcher/Core (1.5.0)
+  - GTMSessionFetcher/Full (1.5.0):
+    - GTMSessionFetcher/Core (= 1.5.0)
+  - ZYGameKit-swift (1.1.9)
   - ZYOtherLoginKit (1.0.2):
     - ZYGameKit-swift
 
@@ -37,7 +37,7 @@ DEPENDENCIES:
   - ZYOtherLoginKit (~> 1.0.2)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/cocoapods/specs.git:
     - AppAuth
     - FBSDKCoreKit
     - FBSDKLoginKit
@@ -49,14 +49,14 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  FBSDKCoreKit: 9cc05bec0568a5955c82eb59ae95da0fe125b88d
-  FBSDKLoginKit: ecc6fd43c81b60f5b5e9388d58f137aff4a5d00b
+  FBSDKCoreKit: 4afd6ff53d8133a433dbcda44451c9498f8c6ce4
+  FBSDKLoginKit: 7181765f2524d7ebf82d9629066c8e6caafc99d0
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
-  GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
-  GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
-  ZYGameKit-swift: 00ef91a41ff9958c94888bd0c58d252797a7017e
+  GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
+  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
+  ZYGameKit-swift: 2a845069b343fd6ffabe8765b38c50e63aa0a22c
   ZYOtherLoginKit: 566f1c583d5bac5fdde3a14d6a1fa4ea484c557d
 
-PODFILE CHECKSUM: 0cf080559299e337e1e9edf6d5d5735d649e4e4c
+PODFILE CHECKSUM: 1188cc1b9f112df3de542fe14c1ffd4f5a3e1292
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.7.5

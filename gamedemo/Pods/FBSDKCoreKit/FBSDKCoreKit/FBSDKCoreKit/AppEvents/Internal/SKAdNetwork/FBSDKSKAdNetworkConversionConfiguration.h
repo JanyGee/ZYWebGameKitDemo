@@ -20,30 +20,32 @@
 
 #if !TARGET_OS_TV
 
-#import "FBSDKTriStateBOOL.h"
+ #import <Foundation/Foundation.h>
 
-FBSDKTriStateBOOL FBSDKTriStateBOOLFromBOOL(BOOL value)
-{
-  return value ? FBSDKTriStateBOOLValueYES : FBSDKTriStateBOOLValueNO;
-}
+ #import "FBSDKSKAdNetworkRule.h"
 
-FBSDKTriStateBOOL FBSDKTriStateBOOLFromNSNumber(NSNumber *value)
-{
-  return ([value isKindOfClass:[NSNumber class]] ?
-          FBSDKTriStateBOOLFromBOOL(value.boolValue) :
-          FBSDKTriStateBOOLValueUnknown);
-}
+NS_ASSUME_NONNULL_BEGIN
 
-BOOL BOOLFromFBSDKTriStateBOOL(FBSDKTriStateBOOL value, BOOL defaultValue)
-{
-  switch (value) {
-    case FBSDKTriStateBOOLValueYES:
-      return YES;
-    case FBSDKTriStateBOOLValueNO:
-      return NO;
-    case FBSDKTriStateBOOLValueUnknown:
-      return defaultValue;
-  }
-}
+@interface FBSDKSKAdNetworkConversionConfiguration : NSObject
+
+@property (nonatomic, readonly, assign) NSInteger timerBuckets;
+
+@property (nonatomic, readonly, assign) NSTimeInterval timerInterval;
+
+@property (nonatomic, readonly, assign) NSInteger cutoffTime;
+
+@property (nonatomic, readonly, copy) NSString *defaultCurrency;
+
+@property (nonatomic, readonly, copy) NSArray<FBSDKSKAdNetworkRule *> *conversionValueRules;
+
+@property (nonatomic, readonly, copy) NSSet<NSString *> *eventSet;
+
+@property (nonatomic, readonly, copy) NSSet<NSString *> *currencySet;
+
+- (nullable instancetype)initWithJSON:(nullable NSDictionary<NSString *, id> *)dict;
+
+@end
+
+NS_ASSUME_NONNULL_END
 
 #endif

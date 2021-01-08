@@ -16,17 +16,25 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import "TargetConditionals.h"
 
-NS_ASSUME_NONNULL_BEGIN
+#if !TARGET_OS_TV
 
-@interface FBSDKLibAnalyzer : NSObject
+ #import "FBSDKReferralManagerResult.h"
 
-+ (NSDictionary<NSString *, NSString *> *)getMethodsTable:(NSArray<NSString *> *)prefixes
-                                               frameworks:(NSArray<NSString *> * _Nullable)frameworks;
-+ (nullable NSArray<NSString *> *)symbolicateCallstack:(NSArray<NSString *> *)callstack
-                                         methodMapping:(NSDictionary<NSString *,id> *)methodMapping;
+@implementation FBSDKReferralManagerResult
+
+- (instancetype)initWithReferralCodes:(nullable NSArray<FBSDKReferralCode *> *)referralCodes
+                          isCancelled:(BOOL)isCancelled
+{
+  if (self = [super init]) {
+    _referralCodes = referralCodes;
+    _isCancelled = isCancelled;
+  }
+  ;
+  return self;
+}
 
 @end
 
-NS_ASSUME_NONNULL_END
+#endif

@@ -18,27 +18,17 @@
 
 #import <Foundation/Foundation.h>
 
-#import "FBSDKURLSessionTask.h"
+#import "FBSDKUserDataStore.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FBSDKURLSession : NSObject
+@interface FBSDKUserDataStore (Internal)
 
-@property (atomic, strong, nullable) NSURLSession *session;
-@property (nonatomic, weak, nullable) id<NSURLSessionDataDelegate> delegate;
-@property (nonatomic, retain, nullable) NSOperationQueue *delegateQueue;
++ (void)setInternalHashData:(nullable NSString *)hashData
+                    forType:(FBSDKAppEventUserDataType)type;
++ (void)setEnabledRules:(NSArray<NSString *> *)rules;
 
-- (instancetype)initWithDelegate:(id<NSURLSessionDataDelegate>)delegate
-                   delegateQueue:(NSOperationQueue *)delegateQueue;
-
-- (void)executeURLRequest:(NSURLRequest *)request
-        completionHandler:(FBSDKURLSessionTaskBlock)handler;
-
-- (void)updateSessionWithBlock:(dispatch_block_t)block;
-
-- (void)invalidateAndCancel;
-
-- (BOOL)valid;
++ (nullable NSString *)getInternalHashedDataForType:(FBSDKAppEventUserDataType)type;
 
 @end
 

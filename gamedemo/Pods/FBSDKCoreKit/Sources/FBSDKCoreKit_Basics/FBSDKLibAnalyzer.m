@@ -17,9 +17,10 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "FBSDKLibAnalyzer.h"
-#import "FBSDKTypeUtility.h"
 
 #import <objc/runtime.h>
+
+#import "FBSDKTypeUtility.h"
 
 @implementation FBSDKLibAnalyzer
 
@@ -41,7 +42,7 @@ static NSMutableDictionary<NSString *, NSString *> *_methodMapping;
       [self addClass:object_getClass(class) isClassMethod:YES];
     }
   }
-  @synchronized (_methodMapping) {
+  @synchronized(_methodMapping) {
     return [_methodMapping copy];
   }
 }
@@ -80,7 +81,7 @@ static NSMutableDictionary<NSString *, NSString *> *_methodMapping;
   NSMutableArray<NSString *> *classNames = [NSMutableArray array];
   unsigned int count = 0;
   const char **classes = objc_copyClassNamesForImage([image UTF8String], &count);
-  for (unsigned int i = 0; i < count; i++){
+  for (unsigned int i = 0; i < count; i++) {
     NSString *className = [NSString stringWithUTF8String:classes[i]];
     if (prefixes.count > 0) {
       for (NSString *prefix in prefixes) {
@@ -119,7 +120,7 @@ static NSMutableDictionary<NSString *, NSString *> *_methodMapping;
                               NSStringFromSelector(selector)];
 
       if (methodAddress && methodName) {
-        @synchronized (_methodMapping) {
+        @synchronized(_methodMapping) {
           [FBSDKTypeUtility dictionary:_methodMapping setObject:methodName forKey:methodAddress];
         }
       }
@@ -128,13 +129,13 @@ static NSMutableDictionary<NSString *, NSString *> *_methodMapping;
   free(methods);
 }
 
-+ (NSArray<NSString *> *)symbolicateCallstack:(NSArray<NSString *> *)callstack
-                                methodMapping:(NSDictionary<NSString *,id> *)methodMapping
++ (nullable NSArray<NSString *> *)symbolicateCallstack:(NSArray<NSString *> *)callstack
+                                         methodMapping:(NSDictionary<NSString *, id> *)methodMapping
 {
   if (!callstack || !methodMapping) {
     return nil;
   }
-  NSArray<NSString *> *sortedAllAddress = [methodMapping.allKeys sortedArrayUsingComparator:^NSComparisonResult(id _Nonnull obj1, id _Nonnull obj2) {
+  NSArray<NSString *> *sortedAllAddress = [methodMapping.allKeys sortedArrayUsingComparator:^NSComparisonResult (id _Nonnull obj1, id _Nonnull obj2) {
     return [obj1 compare:obj2];
   }];
 
@@ -142,9 +143,12 @@ static NSMutableDictionary<NSString *, NSString *> *_methodMapping;
   NSInteger nonSDKMethodCount = 0;
   NSMutableArray<NSString *> *symbolicatedCallstack = [NSMutableArray array];
 
-  for (NSUInteger i = 0; i < callstack.count; i++){
+  for (NSUInteger i = 0; i < callstack.count; i++) {
     NSString *rawAddress = [self getAddress:[FBSDKTypeUtility array:callstack objectAtIndex:i]];
-    NSString *addressString = [NSString stringWithFormat:@"0x%@",[rawAddress substringWithRange:NSMakeRange(rawAddress.length - 10, 10)]];
+    if (rawAddress.length < 10) {
+      continue;
+    }
+    NSString *addressString = [NSString stringWithFormat:@"0x%@", [rawAddress substringWithRange:NSMakeRange(rawAddress.length - 10, 10)]];
     NSString *methodAddress = [self searchMethod:addressString sortedAllAddress:sortedAllAddress];
 
     if (methodAddress) {
@@ -167,12 +171,14 @@ static NSMutableDictionary<NSString *, NSString *> *_methodMapping;
   return containsFBSDKFunction ? symbolicatedCallstack : nil;
 }
 
-+ (NSString *)getAddress:(NSString *)callstackEntry
++ (nullable NSString *)getAddress:(nullable NSString *)callstackEntry
 {
-  NSArray<NSString *> *components = [callstackEntry componentsSeparatedByString:@" "];
-  for (NSString *component in components) {
-    if ([component containsString:@"0x"]) {
-      return component;
+  if ([callstackEntry isKindOfClass:[NSString class]]) {
+    NSArray<NSString *> *components = [callstackEntry componentsSeparatedByString:@" "];
+    for (NSString *component in components) {
+      if ([component containsString:@"0x"]) {
+        return component;
+      }
     }
   }
   return nil;
@@ -181,9 +187,6 @@ static NSMutableDictionary<NSString *, NSString *> *_methodMapping;
 + (NSString *)getOffset:(NSString *)firstString
            secondString:(NSString *)secondString
 {
-  if (!firstString || !secondString) {
-    return nil;
-  }
   unsigned long long first = 0, second = 0;
   NSScanner *scanner = [NSScanner scannerWithString:firstString];
   [scanner scanHexLongLong:&first];
@@ -195,8 +198,8 @@ static NSMutableDictionary<NSString *, NSString *> *_methodMapping;
   return [NSString stringWithFormat:@"+%llu", difference];
 }
 
-+ (NSString *)searchMethod:(NSString *)address
-          sortedAllAddress:(NSArray<NSString *> *)sortedAllAddress
++ (nullable NSString *)searchMethod:(NSString *)address
+                   sortedAllAddress:(NSArray<NSString *> *)sortedAllAddress
 {
   if (0 == sortedAllAddress.count) {
     return nil;
@@ -219,7 +222,7 @@ static NSMutableDictionary<NSString *, NSString *> *_methodMapping;
   NSUInteger index = [sortedAllAddress indexOfObject:address
                                        inSortedRange:NSMakeRange(0, sortedAllAddress.count - 1)
                                              options:NSBinarySearchingInsertionIndex
-                                     usingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                                     usingComparator:^NSComparisonResult (id _Nonnull obj1, id _Nonnull obj2) {
                                        return [obj1 compare:obj2];
                                      }];
   return [FBSDKTypeUtility array:sortedAllAddress objectAtIndex:index - 1];

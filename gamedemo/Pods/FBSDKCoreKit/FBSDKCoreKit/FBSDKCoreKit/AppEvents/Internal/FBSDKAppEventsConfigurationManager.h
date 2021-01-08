@@ -18,31 +18,18 @@
 
 #import <Foundation/Foundation.h>
 
-#import "FBSDKAppEvents+Internal.h"
+#import "FBSDKAppEventsConfiguration.h"
+
+typedef void (^FBSDKAppEventsConfigurationManagerBlock)(void);
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(UserDataStore)
-@interface FBSDKUserDataStore : NSObject
+NS_SWIFT_NAME(AppEventsConfigurationManager)
+@interface FBSDKAppEventsConfigurationManager : NSObject
 
-+ (void)setAndHashUserEmail:(nullable NSString *)email
-                  firstName:(nullable NSString *)firstName
-                   lastName:(nullable NSString *)lastName
-                      phone:(nullable NSString *)phone
-                dateOfBirth:(nullable NSString *)dateOfBirth
-                     gender:(nullable NSString *)gender
-                       city:(nullable NSString *)city
-                      state:(nullable NSString *)state
-                        zip:(nullable NSString *)zip
-                    country:(nullable NSString *)country;
-+ (void)setAndHashData:(nullable NSString *)data
-               forType:(FBSDKAppEventUserDataType)type;
-+ (void)setInternalHashData:(nullable NSString *)hashData
-                    forType:(FBSDKAppEventUserDataType)type;
-+ (void)setEnabledRules:(NSArray<NSString *> *)rules;
-+ (nullable NSString *)getHashedData;
-+ (nullable NSString *)getInternalHashedDataForType:(FBSDKAppEventUserDataType)type;
-+ (void)clearDataForType:(FBSDKAppEventUserDataType)type;
++ (FBSDKAppEventsConfiguration *)cachedAppEventsConfiguration;
+
++ (void)loadAppEventsConfigurationWithBlock:(FBSDKAppEventsConfigurationManagerBlock)block;
 
 @end
 
